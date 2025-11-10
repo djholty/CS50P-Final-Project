@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Add New Workbook - Children's Ledger{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <a href="/" class="btn btn-outline-secondary mb-3">
+            <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
+        
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title mb-4">
+                    <i class="bi bi-book-fill text-primary"></i>
+                    Add New Workbook
+                </h2>
+                
+                <form method="post" action="/workbooks">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Workbook Name</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="name" 
+                            name="name" 
+                            required 
+                            maxlength="200"
+                            placeholder="e.g., Grade 3 Math - Addition"
+                        >
+                        <div class="form-text">
+                            Enter a descriptive name for the workbook or task.
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-plus-circle-fill"></i> Add Workbook
+                        </button>
+                        <a href="/" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

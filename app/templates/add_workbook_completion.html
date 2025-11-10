@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Record Completed Workbook - {{ child.name }} - Children's Ledger{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <a href="/child/{{ child.id }}" class="btn btn-outline-secondary mb-3">
+            <i class="bi bi-arrow-left"></i> Back to {{ child.name }}'s Dashboard
+        </a>
+        
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title mb-4">
+                    <i class="bi bi-check-circle-fill text-info"></i>
+                    Record Completed Workbook for {{ child.name }}
+                </h2>
+                
+                <form method="post" action="/child/{{ child.id }}/workbook">
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Date Completed</label>
+                        <input 
+                            type="date" 
+                            class="form-control" 
+                            id="date" 
+                            name="date" 
+                            required
+                            value="{{ today }}"
+                        >
+                        <div class="form-text">
+                            Date the workbook was completed (YYYY-MM-DD format).
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="workbook_id" class="form-label">Select Workbook</label>
+                        <select class="form-select" id="workbook_id" name="workbook_id" required>
+                            <option value="" selected disabled>Choose a workbook...</option>
+                            {% for workbook in workbooks %}
+                            <option value="{{ workbook.id }}">{{ workbook.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="form-text">
+                            Select the workbook that was completed.
+                        </div>
+                    </div>
+                    
+                    {% if not workbooks %}
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        No workbooks available. <a href="/workbooks/new" class="alert-link">Add a workbook first!</a>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-info text-white" {% if not workbooks %}disabled{% endif %}>
+                            <i class="bi bi-check-circle-fill"></i> Record Completion
+                        </button>
+                        <a href="/child/{{ child.id }}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}{{ child.name }}'s Dashboard - Children's Ledger{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <a href="/" class="btn btn-outline-secondary mb-3">
+            <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
+        <h1 class="display-4">
+            <i class="bi bi-person-circle text-primary"></i>
+            {{ child.name }}'s Dashboard
+        </h1>
+    </div>
+</div>
+
+<!-- Balance Card -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body text-center">
+                <h2>Current Balance</h2>
+                <h1 class="{% if balance >= 0 %}balance-positive{% else %}balance-negative{% endif %}">
+                    ${{ "%.2f"|format(balance) }}
+                </h1>
+                <div class="mt-3">
+                    <a href="/child/{{ child.id }}/transaction/new" class="btn btn-success me-2">
+                        <i class="bi bi-plus-circle-fill"></i> Add Transaction
+                    </a>
+                    <a href="/child/{{ child.id }}/workbook/new" class="btn btn-info text-white">
+                        <i class="bi bi-check-circle-fill"></i> Complete Workbook
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabs for Transactions and Workbooks -->
+<ul class="nav nav-tabs mb-3" id="dashboardTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="transactions-tab" data-bs-toggle="tab" data-bs-target="#transactions" type="button" role="tab">
+            <i class="bi bi-cash-stack"></i> Transactions ({{ transactions|length }})
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="workbooks-tab" data-bs-toggle="tab" data-bs-target="#workbooks" type="button" role="tab">
+            <i class="bi bi-book-fill"></i> Completed Workbooks ({{ completed_workbooks|length }})
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content" id="dashboardTabsContent">
+    <!-- Transactions Tab -->
+    <div class="tab-pane fade show active" id="transactions" role="tabpanel">
+        {% if transactions %}
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th class="text-end">Amount</th>
+                                <th class="text-end">Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for transaction in transactions %}
+                            <tr class="{% if transaction.amount >= 0 %}transaction-credit{% else %}transaction-debit{% endif %}">
+                                <td>{{ transaction.date }}</td>
+                                <td>{{ transaction.description }}</td>
+                                <td class="text-end">
+                                    {% if transaction.amount >= 0 %}
+                                        <span class="text-success">+${{ "%.2f"|format(transaction.amount) }}</span>
+                                    {% else %}
+                                        <span class="text-danger">-${{ "%.2f"|format(transaction.amount|abs) }}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    <strong>${{ "%.2f"|format(transaction.cumulative) }}</strong>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            No transactions yet. <a href="/child/{{ child.id }}/transaction/new" class="alert-link">Add the first transaction!</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Completed Workbooks Tab -->
+    <div class="tab-pane fade" id="workbooks" role="tabpanel">
+        {% if completed_workbooks %}
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date Completed</th>
+                                <th>Workbook</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for workbook in completed_workbooks %}
+                            <tr>
+                                <td>{{ workbook.date }}</td>
+                                <td>
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    {{ workbook.workbook_name }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            No workbooks completed yet. <a href="/child/{{ child.id }}/workbook/new" class="alert-link">Record a completion!</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+

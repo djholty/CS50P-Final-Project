@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Children's Ledger{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="display-4 mb-3">
+            <i class="bi bi-piggy-bank-fill text-primary"></i>
+            Children's Bank Accounts
+        </h1>
+        <p class="lead text-muted">Track workbook completions, rewards, and transactions for your children.</p>
+    </div>
+</div>
+
+{% if children %}
+<div class="row">
+    {% for child in children %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <i class="bi bi-person-circle display-1 text-primary"></i>
+                </div>
+                <h3 class="card-title mb-3">{{ child.name }}</h3>
+                <div class="mb-3">
+                    <h4 class="{% if child.balance >= 0 %}balance-positive{% else %}balance-negative{% endif %}">
+                        ${{ "%.2f"|format(child.balance) }}
+                    </h4>
+                    <small class="text-muted">Current Balance</small>
+                </div>
+                <div class="d-grid gap-2">
+                    <a href="/child/{{ child.id }}" class="btn btn-primary">
+                        <i class="bi bi-eye-fill"></i> View Dashboard
+                    </a>
+                    <a href="/child/{{ child.id }}/transaction/new" class="btn btn-success">
+                        <i class="bi bi-plus-circle-fill"></i> Add Transaction
+                    </a>
+                    <a href="/child/{{ child.id }}/workbook/new" class="btn btn-info text-white">
+                        <i class="bi bi-check-circle-fill"></i> Complete Workbook
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-info text-center" role="alert">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            No children found. <a href="/children/new" class="alert-link">Add a child</a> to get started!
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="row mt-4">
+    <div class="col-md-12 text-center">
+        <a href="/children/new" class="btn btn-lg btn-primary me-2">
+            <i class="bi bi-person-plus-fill"></i> Add New Child
+        </a>
+        <a href="/workbooks/new" class="btn btn-lg btn-secondary">
+            <i class="bi bi-book-fill"></i> Add New Workbook
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+

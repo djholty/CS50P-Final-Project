@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Add New Child - Children's Ledger{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <a href="/" class="btn btn-outline-secondary mb-3">
+            <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
+        
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title mb-4">
+                    <i class="bi bi-person-plus-fill text-primary"></i>
+                    Add New Child
+                </h2>
+                
+                <form method="post" action="/children">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Child's Name</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="name" 
+                            name="name" 
+                            required 
+                            maxlength="100"
+                            placeholder="Enter child's name"
+                        >
+                        <div class="form-text">
+                            Enter a unique name for the child.
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-plus-circle-fill"></i> Add Child
+                        </button>
+                        <a href="/" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

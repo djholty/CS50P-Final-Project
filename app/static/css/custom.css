@@ -1,0 +1,12 @@
+/* Custom CSS for Children's Ledger */
+
+/* Additional custom styles can be added here */
+.animated-icon {
+    transition: transform 0.3s ease;
+}
+
+.animated-icon:hover {
+    transform: scale(1.2);
+}
+
+

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}All Workbooks - Children's Ledger{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <a href="/" class="btn btn-outline-secondary mb-3">
+            <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
+        <h1 class="display-4">
+            <i class="bi bi-book-fill text-primary"></i>
+            All Workbooks
+        </h1>
+        <p class="lead text-muted">Manage available workbooks and tasks.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12 text-end">
+        <a href="/workbooks/new" class="btn btn-primary">
+            <i class="bi bi-plus-circle-fill"></i> Add New Workbook
+        </a>
+    </div>
+</div>
+
+{% if workbooks %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Workbook Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for workbook in workbooks %}
+                            <tr>
+                                <td>{{ workbook.id }}</td>
+                                <td>
+                                    <i class="bi bi-book me-2 text-primary"></i>
+                                    {{ workbook.name }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-muted mt-3 mb-0">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    Total workbooks: {{ workbooks|length }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-info text-center" role="alert">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            No workbooks found. <a href="/workbooks/new" class="alert-link">Add a workbook</a> to get started!
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+
